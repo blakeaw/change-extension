@@ -1,0 +1,50 @@
+#!/bin/bash
+
+
+args=()
+recursive="FALSE"
+
+for i in "$@"
+do
+case $i in
+	-r)
+		# -r = change the extensions
+        # recursively down from the current 
+        # directory.
+        recursive="TRUE"
+		shift
+		;;
+    *)
+        # First string is the 
+        # original extension.
+        # Second string is the 
+        # new extension.
+        args+=($i)
+        shift
+        ;;    
+esac
+done
+
+# Original extension.
+targext=${args[0]}
+# New extension.
+newext=${args[1]}
+
+
+if [[ $recursive == "TRUE" ]]; then
+    # Do a recursive search using the find command.
+    files=`find ./* -name "*.$targext"`
+else
+    # Not recursive.
+    # Glob the file pattern
+    # with the original extension
+    # using ls command. 
+    files=`ls *.$targext`    
+fi
+
+# Loop over the files
+# and modify each ones extension.
+for file in $files; do
+    newname=`echo "$file" | sed -e "s/\.$targext/\.$newext/g"`
+    mv $file $newname
+done
