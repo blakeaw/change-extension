@@ -6,23 +6,23 @@ recursive="FALSE"
 
 for i in "$@"
 do
-case $i in
-	-r)
-		# -r = change the extensions
-        # recursively down from the current 
-        # directory.
-        recursive="TRUE"
-		shift
-		;;
-    *)
-        # First string is the 
-        # original extension.
-        # Second string is the 
-        # new extension.
-        args+=($i)
-        shift
-        ;;    
-esac
+    case $i in
+        -r)
+            # -r = change the extensions
+            # recursively down from the current
+            # directory.
+            recursive="TRUE"
+            shift
+        ;;
+        *)
+            # First string is the
+            # original extension.
+            # Second string is the
+            # new extension.
+            args+=($i)
+            shift
+        ;;
+    esac
 done
 
 # Original extension.
@@ -38,18 +38,18 @@ else
     # Not recursive.
     # Glob the file pattern
     # with the original extension
-    # using ls command. 
-    files=`ls *.$targext`    
+    # using ls command.
+    files=`ls *.$targext`
 fi
 
 # Loop over the files
 # and modify each ones extension.
 for file in $files; do
-    # Generate the new filename using sed to 
+    # Generate the new filename using sed to
     # replace the old extension with the new one.
     # Include the escaped . in the patterns so we only
     # change the extension but not other parts of the file name
-    # that may have the same string: e.g.: 
+    # that may have the same string: e.g.:
     # 'foo' to 'bar'; fooed.foo -> fooed.bar
     newname=`echo "$file" | sed -e "s/\.$targext/\.$newext/g"`
     # Move the file to be the new name with the updated extension.
