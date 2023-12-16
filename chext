@@ -45,6 +45,13 @@ fi
 # Loop over the files
 # and modify each ones extension.
 for file in $files; do
+    # Generate the new filename using sed to 
+    # replace the old extension with the new one.
+    # Include the escaped . in the patterns so we only
+    # change the extension but not other parts of the file name
+    # that may have the same string: e.g.: 
+    # 'foo' to 'bar'; fooed.foo -> fooed.bar
     newname=`echo "$file" | sed -e "s/\.$targext/\.$newext/g"`
+    # Move the file to be the new name with the updated extension.
     mv $file $newname
 done
