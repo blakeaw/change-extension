@@ -33,13 +33,13 @@ newext=${args[1]}
 
 if [[ $recursive == "TRUE" ]]; then
     # Do a recursive search using the find command.
-    files=`find ./* -name "*.$targext"`
+    files=$(find ./* -name "*.$targext")
 else
     # Not recursive.
     # Glob the file pattern
     # with the original extension
     # using ls command.
-    files=`ls *.$targext`
+    files=$(ls *.$targext)
 fi
 
 # Loop over the files
@@ -51,7 +51,7 @@ for file in $files; do
     # change the extension but not other parts of the file name
     # that may have the same string: e.g.:
     # 'foo' to 'bar'; fooed.foo -> fooed.bar
-    newname=`echo "$file" | sed -e "s/\.$targext/\.$newext/g"`
+    newname=$(echo "$file" | sed -e "s/\.$targext/\.$newext/g")
     # Move the file to be the new name with the updated extension.
     mv $file $newname
 done
